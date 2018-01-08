@@ -9,7 +9,7 @@ function getAttributeHeaders(attributeDimension) {
         .map((attributeHeader) => {
             return {
                 ...omit(attributeHeader.attributeHeader, ['formOf', 'totalItems']),
-                name: attributeHeader.attributeHeader.formOf.name,
+                name: attributeHeader.attributeHeader.name || attributeHeader.attributeHeader.formOf.name,
                 type: 'attribute'
             };
         });

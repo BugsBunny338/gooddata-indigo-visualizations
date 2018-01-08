@@ -206,7 +206,10 @@ export function generateTooltipFn(viewByAttribute, type) {
         if (viewByAttribute) {
             // For some reason, highcharts ommit categories for pie charts with attribute. Use point.name instead.
             // use attribute name instead of attribute display form name
-            textData.unshift([customEscape(viewByAttribute.formOf.name), customEscape(point.category || point.name)]);
+            textData.unshift([
+                customEscape(viewByAttribute.name || viewByAttribute.formOf.name),
+                customEscape(point.category || point.name)
+            ]);
         } else if (type === PIE_CHART) {
             // Pie charts with measure only have to use point.name instead of series.name to get the measure name
             textData[0][0] = customEscape(point.name);
@@ -469,7 +472,7 @@ export function getChartOptions(
 
     // Attribute axis labels come from attribute instead of attribute display form.
     // They are listed in attribute headers. So we need to find one attribute header and read the attribute name
-    const xLabel = config.xLabel || (viewByAttribute ? viewByAttribute.formOf.name : '');
+    const xLabel = config.xLabel || (viewByAttribute ? (viewByAttribute.name || viewByAttribute.formOf.name) : '');
     // if there is only one measure, yLabel is name of this measure, otherwise an empty string
     const yLabel = config.yLabel || (measureGroup.items.length === 1 ? unwrap(measureGroup.items[0]).name : '');
     const yFormat = config.yFormat || unwrap(measureGroup.items[0]).format;
